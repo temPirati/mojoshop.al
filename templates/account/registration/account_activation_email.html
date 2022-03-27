@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hi {{ user.user_name }},
+LLogaria juaj eshte krijuar me sukses. Klikoni me
+Poshte per te aktivizuar llogarine tuaj!
+
+http://{{ domain }} {% url 'account:activate' uidb64=uid token=token %}
+
+{% endautoescape %}
