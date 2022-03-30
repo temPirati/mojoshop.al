@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>{% block title %}BookStore{% endblock %}</title>
+    <title>{% block title %}MojoSHop{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="{% static 'mojoshop/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'basket/css/basket.css' %}">
 </head>
 
@@ -60,7 +60,7 @@
                                     d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
                             </svg>
                         </div>
-                        <span class="fs15 fw500">Shop</span>
+                        <span class="fs15 fw500">MojoShop</span>
                     </button>
 
                     {% if user.is_authenticated %}
@@ -74,10 +74,10 @@
                                 <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
                             </svg>
                         </div>
-                        <span class="fs15 fw500">Logout</span>
+                        <span class="fs15 fw500">Dil</span>
                     </a>
                     {% else %}
-                    <a type="button" role="button" href="{% url "account:login"%}"
+                    <a type="button" role="button" href="{% url "account:login" %}"
                         class="btn btn-outline-secondary border-0 basket-btn">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -87,35 +87,23 @@
                                 <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
                             </svg>
                         </div>
-                        <span class="fs15 fw500">Login</span>
+                        <span class="fs15 fw500">Hyr</span>
                     </a>
                     {% endif %}
 
-                    {% if user.is_authenticated %}
-                        <a type="button" role="button" href="{% url "account:dashboard" %}"
-                            class="btn btn-outline-secondary border-0 basket-btn">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                    class="bi bi-person" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                                </svg>
-                            </div>
-                            <span class="fs15 fw500">Account</span>
-                        </a>
-                    {% else %}
-                        <a type="button" role="button" href="{% url "account:login" %}"
-                            class="btn btn-outline-secondary border-0 basket-btn">
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                                    class="bi bi-person" viewBox="0 0 16 16">
-                                    <path
-                                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                                </svg>
-                            </div>
-                            <span class="fs15 fw500">Account</span>
-                        </a>
-                    {% endif %}
+
+                    <a type="button" role="button" href="{% url "account:dashboard" %}"
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-person" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Account</span>
+                    </a>
+
                     <a type="button" role="button" href="{% url "basket:basket_summary" %}"
                         class="btn btn-outline-secondary border-0 basket-btn">
 
@@ -160,39 +148,16 @@
     </header>
 
     <div id="content">{% block content %} {% endblock %}</div>
-
     
 <div class="container">
     <footer class="py-5">
       <div class="row">
+
         <div class="col-2">
           <h5>Section</h5>
           <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-          </ul>
-        </div>
-  
-        <div class="col-2">
-          <h5>Section</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-          </ul>
-        </div>
-  
-        <div class="col-2">
-          <h5>Section</h5>
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
+            <li class="nav-item mb-2"><a href="{% url "store:product_all" %}" class="nav-link p-0 text-muted">Home</a></li>
+            <li class="nav-item mb-2"><a href="{% url "account:dashboard" %}" class="nav-link p-0 text-muted">Account</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
             <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
           </ul>
@@ -212,11 +177,11 @@
       </div>
   
       <div class="d-flex justify-content-between py-4 my-4 border-top">
-        <p>&copy; 2021 Company, Inc. All rights reserved.</p>
+        <p>&copy; 2022 MojoShop, Inc. All rights reserved.</p>
         <ul class="list-unstyled d-flex">
-          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
-          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
-          <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+          <li class="ms-3"><a class="link-dark" href="www.twiter.com"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+          <li class="ms-3"><a class="link-dark" href="www.instagram.com"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+          <li class="ms-3"><a class="link-dark" href="www.facebook.com"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
         </ul>
       </div>
     </footer>

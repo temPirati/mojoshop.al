@@ -44,7 +44,7 @@ class Basket():
             basket[str(product.id)]['product'] = product
 
         for item in basket.values():
-            item['price'] = Decimal(item['price'])
+            item['price'] = int(item['price'])
             item['total_price'] = item['price'] * item['qty']
             yield item
 
@@ -64,18 +64,20 @@ class Basket():
         self.save()
 
     def get_subtotal_price(self):
-        return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+        return sum(int(item['price']) * item['qty'] for item in self.basket.values())
 
     def get_total_price(self):
 
-        subtotal = sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+        subtotal = sum(int(item['price']) * item['qty'] for item in self.basket.values())
 
         if subtotal == 0:
-            shipping = Decimal(0.00)
+            shipping = int(0)
+        elif subtotal <= 3000:
+            shipping = int(200)
         else:
-            shipping = Decimal(11.50)
+            shipping = int(0)
 
-        total = subtotal + Decimal(shipping)
+        total = subtotal + int(shipping)
         return total
 
     def delete(self, product):
