@@ -20,3 +20,9 @@ def category_list(request, category_slug=None):
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
     return render(request, 'store/single.html', {'product': product})  
+
+def faqs_render(request):
+    return render(request, 'store/faqs.html')
+
+def about_render(request):
+    return render(request, 'store/about.html')

@@ -1,52 +1,37 @@
-{% extends "../base.html" %}
-{% load static %}
-{% block title %}MojoShop{% endblock %}
+{% extends "base.html" %}
+{% block title %}Store - Low Prices in Books & more{% endblock %}
 {% block content %}
 
-
-<main>
-
-  <section class="py-1 text-center container">
-    <div class="row py-lg-3">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="h1 fw-bold">MojoShop</h1>
-        <p class="lead text-muted">Dyqani me i madh online i te gjitha trojeve Shqipetare</p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Make an account</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <div class="album py-5 bg-light">
-    <div class="container">
-
-      <div class="pb-3 h5">All Books</div>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
-
-        {% for product in products %}
-
-        <div class="col">
-          <div class="card shadow-sm">
-            <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
-            <div class="card-body">
-              <p class="card-text">
-                <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <small class="text-muted">9min read</small>
+<div class="container">
+  
+  <div class="container">
+    <div class="row">
+      <div class="album py-5">
+        <div class="pb-3">
+          <h1 class="h3">Popular</h1>
+        </div>
+        {% if not products %}
+        <div class="col-12">There are currently no products active</div>
+          {% else %}
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+          {% for product in products %}
+          <div class="col">
+            <div class="card border-0">
+              <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
+              <div class="card-body px-0">
+                <p class="card-text">
+                  <a class="text-dark text-decoration-none"
+                    href="{{ product.get_absolute_url }}">{{ product.title|slice:":50" }}...</a>
+                </p>
+                <div class="fw-bold">£{{product.price}}</div>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-
-        {% endfor %}
-
+        {% endif %}
       </div>
     </div>
   </div>
 
-
-</main>
-
-{% endblock %}
+  {% endblock %}
