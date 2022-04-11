@@ -1,32 +1,29 @@
 from django import forms
 from django.contrib.auth.forms import (AuthenticationForm, PasswordResetForm, SetPasswordForm)
-from .models import UserBase
-from django_countries.fields import CountryField
-from django.core.validators import MaxValueValidator
 
+from .models import Customer, Address
 
+class UserAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = ["full_name", "phone", "address_line", "town_city", "postcode"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["full_name"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
+        )
+        self.fields["phone"].widget.attrs.update({"class": "form-control mb-2 account-form", "placeholder": "Phone"})
+        self.fields["address_line"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
+        )
+        self.fields["town_city"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
+        )
+        self.fields["postcode"].widget.attrs.update(
+            {"class": "form-control mb-2 account-form", "placeholder": "Full Name"}
+        )
 
-class PwdResetForm(PasswordResetForm):
-
-    email = forms.EmailField(max_length=254, widget=forms.TextInput(
-        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        u = UserBase.objects.filter(email=email)
-        if not u:
-            raise forms.ValidationError(
-                'Unfortunatley we can not find that email address')
-        return email
-
-class PwdResetConfirmForm(SetPasswordForm):
-    new_password1 = forms.CharField(
-        label='New password', widget=forms.PasswordInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
-    new_password2 = forms.CharField(
-        label='Repeat password', widget=forms.PasswordInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
 
 
 class UserLoginForm(AuthenticationForm):
@@ -43,68 +40,70 @@ class UserLoginForm(AuthenticationForm):
 
 
 class RegistrationForm(forms.ModelForm):
-    user_name = forms.CharField(label='Username', min_length=4, max_length=50, help_text='E Rendesishme')
+
     email = forms.EmailField(max_length=100, help_text='E Rendesishme', error_messages={'required': 'Duhet ta plotesoni kete fushe'})
-    first_name = forms.CharField(label='Emri', max_length=150, help_text='Emri')
-    country = CountryField(blank=True).formfield()
-    phone_number = forms.IntegerField(label='Numri i Telefonit', validators=[MaxValueValidator(999999999999999)], help_text='Numri Telefonit')
-    postcode = forms.CharField(label='Postcode', max_length=12,help_text='Postcode')
-    address_line_1 = forms.CharField(label='Adresa', max_length=150, help_text='Adresa Primare')
-    town_city = forms.CharField(label='Qyteti ose Fshati', max_length=150, help_text='Qyteti')
+    name = forms.CharField(label='Emri', max_length=150, help_text='Emri')
+    mobile = forms.CharField(label='Numri i Telefonit', help_text='Numri Telefonit')
+
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Perserit Passwordin', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
 
     class Meta:
-        model = UserBase
-        fields = ('user_name', 'email', 'first_name', 'country', 'phone_number', 'postcode', 'address_line_1', 'town_city',)
-
-    def clean_username(self):
-        user_name = self.cleaned_data['user_name'].lower()
-        r = UserBase.objects.filter(user_name=user_name)
-        if r.count():
-            raise forms.ValidationError("Pseudomi eshte perdorur!")
-        return user_name
+        model = Customer
+        fields = ('email', 'name', 'mobile',)
 
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
-            raise forms.ValidationError("Passwordet nuk jane te njejte!")
+            raise forms.ValidationError('Passwords do not match.')
         return cd['password2']
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if UserBase.objects.filter(email=email).exists():
-            raise forms.ValidationError('Ekziston nje llogari me kete account!')    
+        if Customer.objects.filter(email=email).exists():
+            raise forms.ValidationError(
+                'Please use another Email, that is already taken')
         return email
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['user_name'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Username'})
         self.fields['email'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'E-mail', 'name': 'email', 'id': 'id_email'})
-        self.fields['first_name'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Username'})
-        self.fields['country'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Country'})
+        self.fields['name'].widget.attrs.update(
+            {'class': 'form-control mb-3', 'placeholder': 'Name'})
 
-        self.fields['phone_number'].widget.attrs.update(
+        self.fields['mobile'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Phonenumber'})
-
-        self.fields['postcode'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Postcode'})
-
-        self.fields['address_line_1'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'Address'})
-
-        self.fields['town_city'].widget.attrs.update(
-            {'class': 'form-control mb-3', 'placeholder': 'City'})
 
         self.fields['password'].widget.attrs.update(
             {'class': 'form-control mb-3', 'placeholder': 'Password'})
         self.fields['password2'].widget.attrs.update(
             {'class': 'form-control', 'placeholder': 'Repeat Password'})
-        
+
+
+class PwdResetForm(PasswordResetForm):
+
+    email = forms.EmailField(max_length=254, widget=forms.TextInput(
+        attrs={'class': 'form-control mb-3', 'placeholder': 'Email', 'id': 'form-email'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        u = Customer.objects.filter(email=email)
+        if not u:
+            raise forms.ValidationError(
+                'Unfortunatley we can not find that email address')
+        return email
+
+
+class PwdResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='New password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-newpass'}))
+    new_password2 = forms.CharField(
+        label='Repeat password', widget=forms.PasswordInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'New Password', 'id': 'form-new-pass2'}))
+
+
 class UserEditForm(forms.ModelForm):
 
     email = forms.EmailField(
@@ -112,15 +111,21 @@ class UserEditForm(forms.ModelForm):
             attrs={'class': 'form-control mb-3', 'placeholder': 'email', 'id': 'form-email', 'readonly': 'readonly'}))
 
 
-    first_name = forms.CharField(
-        label='Firstname', min_length=4, max_length=50, widget=forms.TextInput(
-            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-firstname'}))
+    name = forms.CharField(
+        label='Emri', min_length=4, max_length=50, widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'Firstname', 'id': 'form-lastname'}))
+
+    mobile = forms.IntegerField(
+        label='Mobile',  widget=forms.TextInput(
+            attrs={'class': 'form-control mb-3', 'placeholder': 'mobile', 'id': 'form-mobile', 'input type': 'numbe'}))
+
+    
 
     class Meta:
-        model = UserBase
-        fields = ('email', 'first_name',)
+        model = Customer
+        fields = ('email', 'name', 'mobile',)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].required = True
-        self.fields['first_name'].required = True
+        self.fields['name'].required = True

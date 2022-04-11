@@ -1,0 +1,53 @@
+{% extends "./sub_base.html" %}
+{% load static %}
+{% block title %}Make Payment{% endblock %}
+
+{% block sub_content %}
+
+<form id="payment-form">
+  <h3 class="mb-3">Billing address</h3>
+  <!-- Error messages in this element -->
+  <div id="card-errors" class="a" role="alert"></div>
+  <div class="row g-3">
+    <div class="col-sm-7">
+      <label for="firstName" class="form-label">Emri Marresit</label>
+      <input type="text" class="form-control" id="custName" placeholder=""  value="{{request.user.name}}">
+      
+    </div>
+    <div class="col-sm-7">
+      <label for="email" class="form-label">Emaili marresit</label>
+      <input type="email" class="form-control" id="custEmail" placeholder=""  value="{{request.user.email}}">
+      
+    </div>
+    <div class="col-sm-7">
+      <label for="custAdd" class="form-label">Adresa</label>
+      <select class="form-select" id="custAdd" required>
+        <option value="">Choose...</option>
+        {% for address in addresses%}
+        <option>{{address.address_line}}</option>
+        {% endfor %}
+      </select>
+      <div class="invalid-feedback">
+        Zgjidh nje nga adresat ose krijo nje te tille.
+      </div>
+    </div>
+    <a href="{% url "account:add_address"%}" style="text-decoration : none">Krijo nje adrese</a>
+    
+  <hr class="my-4">
+  <h4 class="mb-3">Payment</h4>
+  <label for="card-element">Credit or debit card</label>
+  <div id="card-element" class="form-control form-control-payment">
+    <!-- Payment elements will appear here -->
+  </div>
+  <hr class="my-4">
+  <button id="submit" class="btn btn-primary w-100 fw-bold" data-secret="{{ client_secret }}">Pay</button>
+</form>
+
+<script>
+  var STRIPE_PUBLISHABLE_KEY = '{{STRIPE_PUBLISHABLE_KEY}}'
+  var CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="{% static 'payment/index.js' %}" data-rel-js></script>
+
+{% endblock %}

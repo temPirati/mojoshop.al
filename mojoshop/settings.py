@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account',
     'orders',
     'payment',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -133,8 +134,15 @@ BASKET_SESSION_ID = 'basket'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+os.environ.setdefault(
+    "STRIPE_PUBLISHABLE_KEY",
+    "pk_test_51Kg9XjFFPHqCT0QZqpArYR3yGE05P68oygAt1FVO5LJoWOoa1xnISunjScHRETaom3U0UuW5GIaZUz5yiy9gWpb200ZpBeN8rX",
+)
+STRIPE_SECRET_KEY = (
+    "sk_test_51Kg9XjFFPHqCT0QZhyryznIH7dFxv0da98d2YtD75Yxh2eDHfdc9th8yOEHkL8oSTVROvAHEmmuoWWf0cJkh3buB00JHbiYW6q"
+)
 
-AUTH_USER_MODEL = 'account.UserBase'
+AUTH_USER_MODEL = 'account.Customer'
 LOGIN_REDIRECT_URL ='/account/dashboard'
 LOGIN_URL = '/account/login/'
 # Default primary key field type

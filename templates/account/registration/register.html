@@ -37,34 +37,16 @@
                                 {% endfor %}
                                 {% endif %}
 
-                                <label>{{ form.user_name.label }}<span class="text-muted small">
-                                        (Required)</span></label>
-                                {{ form.user_name }}
-                                <label>{{ form.email.label}}<span class="text-muted small">
+                                <label>{{ form.email.label }}<span class="text-muted small">
                                         (Required)</span></label>
                                 {{ form.email }}
+                                <label>{{ form.name.label}}<span class="text-muted small">
+                                        (Required)</span></label>
+                                {{ form.name }}
 
-                                <label>{{ form.first_name.label}}<span class="text-muted small">
+                                <label>{{ form.mobile.label}}<span class="text-muted small">
                                 </span></label>
-                                {{ form.first_name }}
-
-
-                                <label>{{ form.country.label}}<span class="text-muted small">
-                                    </span></label>
-                                {{ form.country }}
-                                
-                                <label>{{ form.phone_number.label}}<span class="text-muted small">
-                                </span></label>
-                                {{ form.phone_number }}
-                                <label>{{ form.postcode.label}}<span class="text-muted small">
-                                </span></label>
-                                {{ form.postcode }}
-                                <label>{{ form.address_line_1.label}}<span class="text-muted small">
-                                </span></label>
-                                {{ form.address_line_1 }}
-                                <label>{{ form.town_city.label}}<span class="text-muted small">
-                                </span></label>
-                                {{ form.town_city }}
+                                {{ form.mobile }}
                                 
                                 <label>{{ form.password.label}}<span class="text-muted mb-4">
                                         </span></label>

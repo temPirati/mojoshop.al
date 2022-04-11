@@ -32,11 +32,11 @@ var form = document.getElementById('payment-form');
 
 form.addEventListener('submit', function(ev) {
 ev.preventDefault();
+var custName = $("#custName").val();
+var custEmail = $("#custEmail").val();  
+var custAdd = $("#custAdd").val(); 
 
-var custName = document.getElementById("custName").value;
-var custAdd = document.getElementById("custAdd").value;
-var custAdd2 = document.getElementById("custAdd2").value;
-var postCode = document.getElementById("postCode").value;
+
 
 
   $.ajax({
@@ -54,10 +54,7 @@ var postCode = document.getElementById("postCode").value;
         payment_method: {
           card: card,
           billing_details: {
-            address:{
-                line1:custAdd,
-                line2:custAdd2
-            },
+            address: custAdd,
             name: custName
           },
         }
@@ -80,7 +77,4 @@ var postCode = document.getElementById("postCode").value;
     },
     error: function (xhr, errmsg, err) {},
   });
-
-
-
 });

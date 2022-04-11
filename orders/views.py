@@ -18,8 +18,7 @@ def add(request):
         if Order.objects.filter(order_key=order_key).exists():
             pass
         else:
-            order = Order.objects.create(user_id=user_id, full_name='name', address1='add1',
-                                address2='add2', total_paid=baskettotal, order_key=order_key)
+            order = Order.objects.create(user_id=user_id, full_name='name', address1='add1', total_paid=baskettotal, order_key=order_key)
             order_id = order.pk
 
             for item in basket:
